@@ -47,12 +47,15 @@
             var newNode = document.createElement('div');
             var id = document.createAttribute('id');
             var CLASS = document.createAttribute('class');
+            var onClick = document.createAttribute('onClick');
 
             id.value = '_' + i;
             CLASS.value = 'position';
+            onClick.value = `flip(${i})`;
 
             newNode.setAttributeNode(id);
             newNode.setAttributeNode(CLASS);
+            newNode.setAttributeNode(onClick);
 
             gameBoard.appendChild(newNode);
             tiles.push('');
@@ -121,7 +124,9 @@
         } console.log(mc); console.log(tiles);
         // 필요없는 부분
 
-        
+        function flip(tilesText) {
+            // alert(`네가 누른 거: ${tilesText}`);
+        }
     </script>
 </body>
 </html>
