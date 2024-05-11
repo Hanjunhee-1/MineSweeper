@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine</title>
+    <style>
+        #title {
+            width: 200px;
+            margin: 100px auto;
+        }
+        #title > h1 {
+            text-align: center;
+        }
+
+        #gameBoard {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 100px auto;
+            padding: 10px;
+            width: 520px;
+            height: 520px;
+            border-radius: 20px;
+            background-color: black;
+        }
+        #gameBoard > .position {
+            margin: 3px;
+            width: 20px;
+            height: 20px;
+            background-color: gray;
+            border-radius: 5px;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="title">
+        <h1 id="m">Mine</h1>
+    </div>
+    <div id="gameBoard"></div>
+
+    <script>
+        var gameBoard = document.querySelector('#gameBoard');
+        var tiles = new Array();
+        for (var i=0; i<400; i++) {
+            var newNode = document.createElement('div');
+            var id = document.createAttribute('id');
+            var CLASS = document.createAttribute('class');
+
+            id.value = '_' + i;
+            CLASS.value = 'position';
+
+            newNode.setAttributeNode(id);
+            newNode.setAttributeNode(CLASS);
+
+            gameBoard.appendChild(newNode);
+            tiles.push('');
+        }
+
+        var count = 0;
+        while (count < 80) {
+            var r = Math.floor(Math.random() * 400);
+            if (tiles[r] == '' && (r < 167 || (r>171 && r<187) || (r>191 && r<207) || (r>211 && r<227) || (r>231 && r<247) || r > 251)) {
+                tiles[r] = '💣';
+                document.querySelector(`#_${r}`).innerText = '💣';
+                count++;
+            }
+        }
+
+        for (var i=0; i<400; i++) {
+            var mc = 0;
+            if (tiles[i] != '💣') {
+                for (var j=0; j<8; j++) {
+                    if (j==0) {
+                        var num = i-21;
+                        if (num>=0 && i%20!=0 && tiles[num] == '💣') mc++;
+                    }
+                    if (j==1) {
+                        var num = i-20;
+                        if (num>=0 && tiles[num] == '💣') mc++;
+                    }
+                    if (j==2) {
+                        var num = i-19;
+                        if (num>=0 && num%20!=0 && tiles[num] == '💣') mc++;
+                    }
+                    if (j==3) {
+                        var num = i-1;
+                        if (i%20!=0 && tiles[num] == '💣') mc++;
+                    }
+                    if (j==4) {
+                        var num = i+1;
+                        if (num%20!=0 && tiles[num] == '💣') mc++;
+                    }
+                    if (j==5) {
+                        var num = i+19;
+                        if (num<400 && i%20!=0 && tiles[num] == '💣') mc++;
+                    }
+                    if (j==6) {
+                        var num = i+20;
+                        if (num<400 && tiles[num] == '💣') mc++;
+                    }
+                    if (j==7) {
+                        var num = i+21;
+                        if (num<400 && num%20!=0 && tiles[num] == '💣') mc++;
+                    }
+                }
+            }
+            if (mc!=0) {
+                document.querySelector(`#_${i}`).innerText = mc;
+                tiles[i] = mc;
+            }
+            else continue;
+        }
+
+        // 필요없는 부분
+        var mc=0;
+        for (var i=0; i<400; i++) {
+            if (tiles[i] == '💣') mc++;
+            else if (tiles[i] == '') document.querySelector(`#_${i}`).style.backgroundColor = 'white';
+        } console.log(mc); console.log(tiles);
+        // 필요없는 부분
+
+        
+    </script>
+</body>
+</html>
